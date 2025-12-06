@@ -1,27 +1,48 @@
-# EFACTFRONTEND
+# EFACT Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.10.
+Aplicación web para visualización de documentos electrónicos (PDF, XML, CDR) del sistema EFACT.
 
-## Development server
+## Tecnologías
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Angular 18
+- TypeScript
+- Standalone Components
 
-## Code scaffolding
+## Instalación
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```bash
+npm install
+```
 
-## Build
+## Ejecutar
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+npm start
+```
 
-## Running unit tests
+La aplicación estará disponible en `http://localhost:4200`
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Credenciales de prueba
 
-## Running end-to-end tests
+- **Usuario:** 20111193035
+- **Contraseña:** 61a77b6fda77c3a2d6b28930546c86d7f749ccf0bd4bad1e1192f13bb59f0f30
+- **Ticket:** 571cc3a3-5b1f-4855-af26-0de6e7c5475f
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Estructura
 
-## Further help
+```
+src/
+├── app/
+│   ├── core/          # Servicios, guards, interceptors
+│   ├── features/      # Componentes de funcionalidades
+│   └── shared/        # Componentes reutilizables
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Funcionalidades
+
+- Login con token
+- Visualización de PDF
+- Visualización de XML firmado
+- Visualización de CDR
+- Descarga de documentos
+# Efact_Frontend
