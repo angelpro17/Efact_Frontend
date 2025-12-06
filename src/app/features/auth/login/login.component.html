@@ -1,0 +1,56 @@
+<div class="login-page">
+    <div class="login-card">
+        <!-- Logo -->
+        <div class="logo-section">
+            <img src="/logo_efact.png" alt="EFACT Logo" class="logo-image">
+            <h1 class="login-title">Iniciar Sesión</h1>
+            <p class="login-subtitle">Bienvenido de nuevo.</p>
+        </div>
+
+        <!-- Login Form -->
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+            <!-- Error Message -->
+            <app-error-message *ngIf="errorMessage" [message]="errorMessage"></app-error-message>
+
+            <!-- Usuario Field -->
+            <div class="form-field">
+                <label for="username" class="field-label">Usuario</label>
+                <input id="username" type="text" formControlName="username" placeholder="Usuario" class="field-input"
+                    [class.field-error]="username?.invalid && username?.touched" />
+                <div class="field-error-text" *ngIf="username?.invalid && username?.touched">
+                    <span *ngIf="username?.errors?.['required']">El usuario es requerido</span>
+                    <span *ngIf="username?.errors?.['minlength']">El usuario debe tener al menos 5 caracteres</span>
+                </div>
+            </div>
+
+            <!-- Contraseña Field -->
+            <div class="form-field">
+                <label for="password" class="field-label">Contraseña</label>
+                <div class="password-wrapper">
+                    <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                        placeholder="Contraseña" class="field-input"
+                        [class.field-error]="password?.invalid && password?.touched" />
+                </div>
+                <div class="field-error-text" *ngIf="password?.invalid && password?.touched">
+                    <span *ngIf="password?.errors?.['required']">La contraseña es requerida</span>
+                    <span *ngIf="password?.errors?.['minlength']">La contraseña debe tener al menos 10 caracteres</span>
+                </div>
+            </div>
+
+            <!-- Remember & Forgot Password -->
+            <div class="form-options">
+                <label class="checkbox-label">
+                    <input type="checkbox" class="checkbox-input">
+                    <span>Recordarme</span>
+                </label>
+                <a href="#" class="forgot-link">¿Olvidaste tu contraseña?</a>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-button" [disabled]="loading">
+                <span *ngIf="!loading">Iniciar Sesión</span>
+                <span *ngIf="loading">Iniciando sesión...</span>
+            </button>
+        </form>
+    </div>
+</div>

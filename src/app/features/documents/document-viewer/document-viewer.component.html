@@ -1,0 +1,147 @@
+<div class="viewer-wrapper">
+    <!-- Top Navigation Bar -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <div class="logo-container">
+                <img src="/logo_efact.png" alt="EFACT" class="logo-image">
+            </div>
+            <span class="nav-divider">|</span>
+            <span class="page-title">Visualizador de Documentos</span>
+        </div>
+        <div class="nav-right">
+            <button class="help-btn" title="Ayuda">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </button>
+            <div class="user-menu">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M16 7a4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                <span>Usuario</span>
+                <svg class="chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </div>
+            <button class="logout-btn" (click)="logout()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                Cerrar Sesión
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <!-- Document Info Card -->
+        <div class="info-card">
+            <div class="info-header">
+                <h2>Información del Documento</h2>
+            </div>
+            <div class="info-body">
+                <div class="info-item">
+                    <span class="info-label">Ticket:</span>
+                    <span class="info-value">{{ ticket }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Estado:</span>
+                    <span class="status-badge">Procesado</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Document Tabs -->
+        <div class="tabs-container">
+            <div class="tabs-header">
+                <button class="tab-button" [class.active]="activeTab === 'pdf'" (click)="setActiveTab('pdf')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                    </svg>
+                    <span>PDF</span>
+                </button>
+
+                <button class="tab-button" [class.active]="activeTab === 'xml'" (click)="setActiveTab('xml')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                    </svg>
+                    <span>XML Firmado</span>
+                </button>
+
+                <button class="tab-button" [class.active]="activeTab === 'cdr'" (click)="setActiveTab('cdr')">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>CDR</span>
+                </button>
+
+                <div class="tabs-actions">
+                    <button class="action-btn" (click)="downloadDocument(activeTab)" title="Descargar">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Descargar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Document Content -->
+            <div class="document-content">
+                <!-- Loading State -->
+                <div *ngIf="currentDocument.loading" class="content-state">
+                    <app-loading-spinner [message]="'Cargando documento...'"></app-loading-spinner>
+                </div>
+
+                <!-- Error State -->
+                <div *ngIf="currentDocument.error && !currentDocument.loading" class="content-state">
+                    <div class="error-state">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <p>{{ currentDocument.error }}</p>
+                        <button class="retry-btn" (click)="loadDocument(activeTab)">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                            </svg>
+                            Reintentar
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PDF Viewer -->
+                <div *ngIf="activeTab === 'pdf' && currentDocument.content && !currentDocument.loading"
+                    class="pdf-viewer">
+                    <iframe [src]="currentDocument.content" class="pdf-frame"></iframe>
+                </div>
+
+                <!-- XML/CDR Viewer -->
+                <div *ngIf="(activeTab === 'xml' || activeTab === 'cdr') && currentDocument.content && !currentDocument.loading"
+                    class="code-viewer">
+                    <div class="code-header">
+                        <span class="code-title">{{ activeTab === 'xml' ? 'XML Firmado' : 'Constancia de Recepción
+                            (CDR)' }}</span>
+                        <button class="copy-btn" title="Copiar al portapapeles">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                        </button>
+                    </div>
+                    <pre class="code-content">{{ currentDocument.content }}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
