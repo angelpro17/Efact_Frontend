@@ -1,0 +1,8 @@
+{
+    "rewrites": [
+        {
+            "source": "/api-efact-ose/:path*",
+            "destination": "https://odin-dev.efact.pe/api-efact-ose/:path*"
+        }
+    ]
+}
